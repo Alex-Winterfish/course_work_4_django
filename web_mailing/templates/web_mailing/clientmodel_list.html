@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} Список клиентов {% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+{% for client in object_list %}
+
+<div class="container" style="width: 50 rem">
+    {{ client.full_name }}  {{ client.email }}
+</div>
+{% endfor %}
+{% endblock %}

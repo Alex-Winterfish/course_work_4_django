@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class ClientModel(models.Model):
     email = models.EmailField(max_length=100, verbose_name="Электронная почта", unique=True)
     full_name = models.CharField(max_length=100, verbose_name="Ф.И.О")
@@ -13,12 +14,13 @@ class ClientModel(models.Model):
         verbose_name_plural = "Получатели"
         ordering = ["full_name"]
 
+
 class MessageModel(models.Model):
     title = models.CharField(max_length=100, verbose_name="тема письма")
     text = models.TextField(max_length=1000, verbose_name="тест письма")
 
     def __str__(self):
-        return self.text
+        return self.title
 
     class Meta:
         verbose_name = "Сообщение"
