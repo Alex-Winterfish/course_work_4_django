@@ -1,26 +1,30 @@
 <nav class="navbar bg-body-tertiary" data-bs-theme="dark">
 
-    <div class="container-fluid">
-
+    <div class="container">
+    <div class="col-4">
         <a class="navbar-brand" href="#">
             <img src="/static/logo/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            Меню
+Меню
+               <div class="list-group" style="width:15rem">
+                <a href="{% url 'web_mailing:client_create' %}" class="list-group-item list-group-item-action">Добавить получателя</a>
+                <a href="{% url 'web_mailing:message_create' %}" class="list-group-item list-group-item-action">Добавить сообщение</a>
+            </div>
 
         </a>
-
+</div>
     <div class="col-8">
 <ul class="nav nav-tabs">
-  <li class="nav-item mt-3 mb-3 me-3"><a href="#" >
+  <li class="nav-item mt-3 mb-3 me-3"><a href="{% url 'web_mailing:clients_list' %}">
       <button type="button" class="btn btn-primary">Получатели</button></a>
   </li>
-  <li class="nav-item mt-3 mb-3 me-3">
-    <button type="button" class="btn btn-primary">Сообщения</button>
+  <li class="nav-item mt-3 mb-3 me-3"><a href="{% url 'web_mailing:messages_list' %}">
+      <button type="button" class="btn btn-primary">Сообщения</button></a>
   </li>
   <li class="nav-item mt-3 mb-3 me-3">
     <button type="button" class="btn btn-primary">Рассылки</button>
   </li>
   <li class="nav-item mt-3 mb-3 me-3">
-    <button type="button" class="btn btn-primary">Разослать сообщения</button>
+    <button type="button" class="btn btn-primary">Управление рассылками</button>
   </li>
 </ul></div></div>
 

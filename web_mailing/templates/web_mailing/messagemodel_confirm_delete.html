@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %} Список клиентов {% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+<div class="container mt-3" style="width:25rem">
+    <div class="card">
+        <div class="card-title text-center">
+            <p>Действительно удалить сообщение {{ object.title }}?</p>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+        <div class="card-body">
+            <div class="row">
+    <div class="col-6">
+                        <button type="submit" class="btn btn-lg btn-block btn-outline-danger">
+                            Удалить
+                            </button>
+                        </div>
+    <div class="col-6">
+
+                        <a href="{% url 'web_mailing:messages_list' %}"><div class="btn btn-lg btn-block btn-outline-primary">
+              Оставить </div></a>
+
+    </div>
+                        </div>
+        </div></form>
+    </div>
+</div>
+
+{% endblock %}

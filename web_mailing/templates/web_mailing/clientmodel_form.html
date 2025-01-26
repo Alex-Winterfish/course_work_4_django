@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} Список клиентов {% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+<div class="container mt-3" style="width:30rem">
+ <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <form method="post" action="" class="form-floating">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                        {{ form.as_p }}
+<div class="row">
+    <div class="col-6">
+                        <button type="submit" class="btn btn-lg btn-block btn-outline-primary">
+                            {% if object %}
+                            Сохранить
+                            {% else %}
+                            Создать
+                            {% endif %}
+                            </button>
+                        </div>
+    <div class="col-6">
+
+                        <a href="/web_mailing/clients/"><div class="btn btn-lg btn-block btn-outline-primary">
+              Назад </div></a>
+
+    </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+</div>
+{% endblock %}

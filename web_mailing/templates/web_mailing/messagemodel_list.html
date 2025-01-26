@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %} Список клиентов {% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+
+<div class="container mt-3" style="width:80rem">
+    <div class="row row-cols-3">
+        {% for message in object_list %}
+        <div class="col g-2">
+            <div class="card md-5">
+                <div class="card-header">
+                    {{ message.title }}
+                </div>
+                <div class="card-body">
+                    {{ message.text | truncatechars:100}}
+                </div>
+                <div class="card-footer">
+                     <div class="btn-group" role="group">
+    <a href="{% url 'web_mailing:message_detail' message.pk %}" class="btn btn-primary mt-3 mb-3">Подробнее</a>
+    <a href="{% url 'web_mailing:message_update' message.pk %}" class="btn btn-primary mt-3 mb-3">Редактировать</a>
+    <a href="{% url 'web_mailing:message_delete' message.pk %}" class="btn btn-primary mt-3 mb-3">Удалить</a>
+    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

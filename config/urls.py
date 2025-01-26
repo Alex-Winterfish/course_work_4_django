@@ -22,4 +22,5 @@ from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("web_mailing/", include("web_mailing.urls", namespace="web_mailing"))
 ]
