@@ -26,3 +26,37 @@ class MessageModel(models.Model):
         verbose_name = "Сообщение"
         verbose_name_plural = "Сообщения"
         ordering = ["title"]
+
+
+class MailingModel(models.Model):
+    start = models.DateTimeField(auto_now_add=True, verbose_name="дата и время первой отправки")
+    end = models.DateTimeField(verbose_name="дата и время окончания отправки")
+    status = models.CharField(max_length=9, verbose_name="статус рассылки")
+    message = models.ForeignKey(MessageModel, on_delete=models.CASCADE, verbose_name="сообщения для отправки")
+    recipients = models.ManyToManyField(ClientModel, verbose_name="получатели")
+
+    def __str__(self):
+        return f"{self.message} статус: {self.status}"
+
+    class Meta:
+        verbose_name = "Рассылка"
+        verbose_name_plural = "Рассылки"
+        ordering = ["start", "end"]
+
+
+class MailingAttemptModel(models.Model):
+    attempt_start = models.DateTimeField(auto_now=True, verbose_name="дата и время попытки")
+    status = models.CharField(max_length=10, verbose_name="статус рассылки")
+    server_feedback = models.CharField(max_length=100, verbose_name="ответ почтового сервера")
+    mailing = models.ForeignKey(MailingModel, on_delete=models.CASCADE, verbose_name="рассылка")
+
+    def __str__(self):
+        return f"{self.mailing} статус: {self.status}"
+
+    class Meta:
+        verbose_name = "Попытка рассылки"
+        verbose_name_plural = "Попытки рассылок"
+        ordering = ["attempt_start"]
+
+
+

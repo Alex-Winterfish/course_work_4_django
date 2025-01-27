@@ -54,3 +54,5 @@ class MessageDelete(DeleteView):
     success_url = reverse_lazy("web_mailing:messages_list")
 
 
+
+
