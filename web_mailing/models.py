@@ -2,6 +2,7 @@ from django.db import models
 
 
 class ClientModel(models.Model):
+    '''Модель получателя рассылки'''
     email = models.EmailField(max_length=100, verbose_name="Электронная почта", unique=True)
     full_name = models.CharField(max_length=100, verbose_name="Ф.И.О")
     note = models.TextField(max_length=1000, verbose_name="Комментарий")
@@ -16,6 +17,7 @@ class ClientModel(models.Model):
 
 
 class MessageModel(models.Model):
+    '''Модель сообщения'''
     title = models.CharField(max_length=100, verbose_name="тема письма")
     text = models.TextField(max_length=1000, verbose_name="тест письма")
 
@@ -29,6 +31,7 @@ class MessageModel(models.Model):
 
 
 class MailingModel(models.Model):
+    '''Модель рассылки'''
     start = models.DateTimeField(auto_now_add=True, verbose_name="дата и время первой отправки")
     end = models.DateTimeField(verbose_name="дата и время окончания отправки")
     status = models.CharField(max_length=9, verbose_name="статус рассылки")
@@ -45,6 +48,7 @@ class MailingModel(models.Model):
 
 
 class MailingAttemptModel(models.Model):
+    '''Модель попытка рассылки'''
     attempt_start = models.DateTimeField(auto_now=True, verbose_name="дата и время попытки")
     status = models.CharField(max_length=10, verbose_name="статус рассылки")
     server_feedback = models.CharField(max_length=100, verbose_name="ответ почтового сервера")
