@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
-from .models import ClientModel, MessageModel
+from .models import ClientModel, MessageModel, MailingModel, MailingAttemptModel
 
 class ClientView(ListView):
     model = ClientModel
@@ -53,6 +53,8 @@ class MessageDelete(DeleteView):
     model = MessageModel
     success_url = reverse_lazy("web_mailing:messages_list")
 
+class MailingView(ListView):
+    model = MailingModel
 
 
 

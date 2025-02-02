@@ -1,6 +1,7 @@
 from django.urls import path
 from web_mailing.apps import WebMailingConfig
-from .views import ClientView, ClientCreate, ClientDetail, ClientUpdate, ClientDelite, MessageView, MessageDetail, MessageCreate, MessageUpdate, MessageDelete
+from .views import (ClientView, ClientCreate, ClientDetail, ClientUpdate, ClientDelite,
+                    MessageView, MessageDetail, MessageCreate, MessageUpdate, MessageDelete, MailingView)
 
 app_name = WebMailingConfig.name
 
@@ -14,5 +15,6 @@ urlpatterns = [
     path("message_detail/<int:pk>", MessageDetail.as_view(), name="message_detail"),
     path("message_create/", MessageCreate.as_view(), name="message_create"),
     path("message_update/<int:pk>", MessageUpdate.as_view(), name="message_update"),
-    path("message_delete/<int:pk>", MessageDelete.as_view(), name="message_delete")
+    path("message_delete/<int:pk>", MessageDelete.as_view(), name="message_delete"),
+    path("mailing/", MailingView.as_view(), name="mailing_list")
 ]
