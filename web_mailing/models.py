@@ -42,9 +42,9 @@ class MailingModel(models.Model):
         (ENDED, "Окончена"),
     ]
 
-    start = models.DateTimeField(auto_now_add=True, verbose_name="дата и время первой отправки")
-    end = models.DateTimeField(verbose_name="дата и время окончания отправки")
-    status = models.CharField(choices=STATUS_IN_CHOICES, verbose_name="статус рассылки")
+    start = models.DateTimeField(null=True, verbose_name="дата и время первой отправки")
+    end = models.DateTimeField(null=True, verbose_name="дата и время окончания отправки")
+    status = models.CharField(choices=STATUS_IN_CHOICES, default=CREATED, verbose_name="статус рассылки")
     message = models.ForeignKey(MessageModel, on_delete=models.CASCADE, verbose_name="сообщения для отправки")
     recipients = models.ManyToManyField(ClientModel, verbose_name="получатели")
 
