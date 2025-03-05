@@ -14,7 +14,7 @@
 
         </a>
 </div>
-    <div class="col-8">
+    <div class="col-6">
 <ul class="nav nav-tabs">
   <li class="nav-item mt-3 mb-3 me-3"><a href="{% url 'web_mailing:clients_list' %}">
       <button type="button" class="btn btn-primary">Получатели</button></a>
@@ -28,6 +28,33 @@
   <li class="nav-item mt-3 mb-3 me-3"><a href="{% url 'web_mailing:mailing_attempt' %}">
     <button type="button" class="btn btn-primary">Управление рассылками</button></a>
   </li>
-</ul></div></div>
+</ul></div>
+
+            <div class="col-2">
+
+            {% if user.is_authenticated %}
+            <lu class="nav-item" >
+            <div class="text-bg-dark">Добро жаловать {{ user.username }}!</div>
+            </lu>
+                <lu class="nav-item">
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-primary btn-sm" type="submit" >Выход</button>
+                    </form>
+                </lu>
+            {% else %}
+            <lu class="nav-item">
+                <p><button class="btn btn-outline-primary btn-sm" type="button" ><a href="{% url 'users:login' %}">Вход</a></button></p>
+           </lu>
+            <lu class="nav-item">
+
+                <p><button class="btn btn-outline-primary btn-sm" type="button" ><a href="{% url 'users:register' %}">Регистрация</a></button></p>
+
+            </lu>
+            {% endif %}
+
+            </div>
+
+    </div>
 
 </nav>

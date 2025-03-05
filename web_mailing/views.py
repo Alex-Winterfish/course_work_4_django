@@ -98,7 +98,10 @@ class MailingAttemptCreate(StyleFormMixin, CreateView):
         recipient_list = [user_email]
         send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
+
+
     def form_valid(self, form):
+
         subject = form.instance.mailing.message.title
         message = form.instance.mailing.message.text
         recipients = form.instance.mailing.recipients
@@ -109,14 +112,16 @@ class MailingAttemptCreate(StyleFormMixin, CreateView):
 
         for recipient in recipients.all():
             try:
-                self.send_email(recipient.email, subject, message,)
                 mailing_attempt = MailingAttemptModel(mailing=form.instance.mailing)
+                self.send_email(recipient.email, subject, message,)
+                mailing_attempt.attempt_start = datetime.datetime.now()
                 mailing_attempt.status = "Успешно"
                 mailing_attempt.save()
 
             except SMTPException as e:
-                self.send_email(recipient.email, subject, message, )
                 mailing_attempt = MailingAttemptModel(mailing=form.instance.mailing)
+                self.send_email(recipient.email, subject, message, )
+                mailing_attempt.attempt_start = datetime.datetime.now()
                 mailing_attempt.status = "Не успешно"
                 mailing_attempt.server_feedback = e
                 mailing_attempt.save()
