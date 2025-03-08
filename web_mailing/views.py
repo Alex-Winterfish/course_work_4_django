@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from .models import ClientModel, MessageModel, MailingModel, MailingAttemptModel
-from .forms import StyleFormMixin
+from .forms import StyleFormMixin, MailingForm
 import os
 from dotenv import load_dotenv
 
@@ -12,6 +12,15 @@ load_dotenv()
 
 class ClientView(ListView):
     model = ClientModel
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated and not user.groups.filter(name='managers').exists():
+            return ClientModel.objects.filter(owner=user)
+        elif user.groups.filter(name='managers').exists():
+            return ClientModel.objects.all()
+        return super().get_queryset()
+
 
 class ClientDetail(DetailView):
     model = ClientModel
@@ -21,6 +30,11 @@ class ClientCreate(StyleFormMixin, CreateView):
     model = ClientModel
     fields = ["full_name", "email", "note"]
     success_url = reverse_lazy("web_mailing:clients_list")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+
+        return super().form_valid(form)
 
 
 
@@ -37,6 +51,13 @@ class ClientDelite(DeleteView):
 
 class MessageView(ListView):
     model = MessageModel
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated and not user.groups.filter(name='managers').exists():
+            return MessageModel.objects.filter(owner=user)
+        elif user.groups.filter(name='managers').exists():
+            return MessageModel.objects.all()
+        return super().get_queryset()
 
 
 class MessageDetail(DetailView):
@@ -47,7 +68,16 @@ class MessageDetail(DetailView):
 class MessageCreate(StyleFormMixin, CreateView):
     model = MessageModel
     fields = ["title", "text"]
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+
+        return super().form_valid(form)
     success_url = reverse_lazy("web_mailing:messages_list")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+
+        return super().form_valid(form)
 
 
 class MessageUpdate(StyleFormMixin, UpdateView):
@@ -63,10 +93,26 @@ class MessageDelete(DeleteView):
 
 class MailingView(ListView):
     model = MailingModel
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated and not user.groups.filter(name='managers').exists():
+            return MailingModel.objects.filter(owner=user)
+        elif user.groups.filter(name='managers').exists():
+            return MailingModel.objects.all()
+        return super().get_queryset()
 
 class MailingCreate(StyleFormMixin, CreateView):
     model = MailingModel
-    fields = ["message", "recipients"]
+    form_class = MailingForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
     success_url = reverse_lazy('web_mailing:mailing_list')
 
 

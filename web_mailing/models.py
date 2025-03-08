@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import CustomUser
 
 
 class ClientModel(models.Model):
@@ -6,6 +7,7 @@ class ClientModel(models.Model):
     email = models.EmailField(max_length=100, verbose_name="Электронная почта", unique=True)
     full_name = models.CharField(max_length=100, verbose_name="Ф.И.О")
     note = models.TextField(max_length=1000, verbose_name="Комментарий")
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="users_client", verbose_name="клиент пользователя", null=True, blank=True)
 
     def __str__(self):
         return self.full_name
@@ -20,6 +22,7 @@ class MessageModel(models.Model):
     '''Модель сообщения'''
     title = models.CharField(max_length=100, verbose_name="тема письма")
     text = models.TextField(max_length=1000, verbose_name="тест письма")
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="users_message", verbose_name="сообщения пользователя", null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -47,6 +50,7 @@ class MailingModel(models.Model):
     status = models.CharField(choices=STATUS_IN_CHOICES, default=CREATED, verbose_name="статус рассылки")
     message = models.ForeignKey(MessageModel, on_delete=models.CASCADE, verbose_name="сообщения для отправки")
     recipients = models.ManyToManyField(ClientModel, verbose_name="получатели")
+    owner = models.ForeignKey(CustomUser, null=True, blank=True, on_delete=models.CASCADE, verbose_name="создатель рассылки")
 
     def __str__(self):
         return f"{self.message} статус: {self.status}"

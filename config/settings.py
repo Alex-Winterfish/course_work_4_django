@@ -131,7 +131,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 LOGIN_URL = 'logout'
 
-LOGIN_REDIRECT_URL = 'catalog:product_list'
+LOGIN_REDIRECT_URL = 'web_mailing:clients_list'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv("EMAIL_HOST")

@@ -1,4 +1,5 @@
-from django.forms import BooleanField
+from django.forms import BooleanField, ModelForm
+from web_mailing.models import MailingModel, MessageModel,ClientModel
 
 class StyleFormMixin:
     def get_form(self, form_class=None):
@@ -9,3 +10,15 @@ class StyleFormMixin:
             else:
                 field.widget.attrs["class"] = "form-control"
         return form
+
+
+class MailingForm(ModelForm):
+    class Meta:
+        model = MailingModel
+        fields = ["message", "recipients"]
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['message'].queryset = MessageModel.objects.filter(owner=user)
+        self.fields['recipients'].queryset = ClientModel.objects.filter(owner=user)

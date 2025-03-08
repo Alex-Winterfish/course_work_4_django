@@ -15,14 +15,17 @@
 <div class="card-body">
 
             <p>{{ client.full_name }}  {{ client.email }}</p>
+            <p>Создан пользователем: {{ client.owner }}</p>
 </div>
 
         </div>
         <div class="col-6">
  <div class="btn-group" role="group">
     <a href="{% url 'web_mailing:client_detail' client.pk %}" class="btn btn-primary mt-3 mb-3">Подробнее</a>
+     {% if client.owner == user %}
     <a href="{% url 'web_mailing:client_update' client.pk %}" class="btn btn-primary mt-3 mb-3">Редактировать</a>
     <a href="{% url 'web_mailing:client_delete' client.pk %}" class="btn btn-primary mt-3 mb-3">Удалить</a>
+     {% endif %}
     </div>
         </div>
         </div></div>

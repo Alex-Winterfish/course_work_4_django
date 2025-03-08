@@ -37,7 +37,7 @@
             <div class="text-bg-dark">Добро жаловать {{ user.username }}!</div>
             </lu>
                 <lu class="nav-item">
-                    <form method="post" action="#">
+                    <form method="post" action="{% url 'users:logout' %}">
                         {% csrf_token %}
                         <button class="btn btn-outline-primary btn-sm" type="submit" >Выход</button>
                     </form>

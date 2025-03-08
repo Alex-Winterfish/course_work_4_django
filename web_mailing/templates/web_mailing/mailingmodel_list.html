@@ -28,8 +28,10 @@
         <div class="col-6">
  <div class="btn-group" role="group">
     <a href="{% url 'web_mailing:mailing_detail' mailing.pk %}" class="btn btn-primary mt-3 mb-3">Подробнее</a>
+     {% if mailing.owner == user %}
     <a href="{% url 'web_mailing:mailing_update' mailing.pk %}" class="btn btn-primary mt-3 mb-3">Редактировать</a>
     <a href="{% url 'web_mailing:mailing_delete' mailing.pk %}" class="btn btn-primary mt-3 mb-3">Удалить</a>
+     {% endif %}
     </div>
         </div>
         </div></div>
