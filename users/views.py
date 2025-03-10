@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
-
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import DetailView, ListView
 from web_mailing.forms import StyleFormMixin
 from .forms import CustomUserCreationForm
 from django.core.mail import send_mail
 import os
 from dotenv import load_dotenv
+
+from .models import CustomUser
 
 load_dotenv()
 
@@ -39,6 +41,28 @@ class CustomLoginView(StyleFormMixin, LoginView):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+class CustomUserView(ListView):
+    model = CustomUser
+    template_name = 'customuser_list.html'
 
+
+def user_block(request, pk):
+    user = get_object_or_404(CustomUser, id=pk)
+    user.is_active = not user.is_active
+    user.save()
+    print(user.is_active)
+
+    return redirect('users:users_list')
+
+class CustomUserDetail(DetailView):
+    model = CustomUser
+    template_name = "customuser_detail.html"
+
+class CustomUserUpdate(StyleFormMixin, UpdateView):
+    model = CustomUser
+    fields = ["avatar", "phone", "email", "country", "is_active"]
+    template_name = "customuser_form.html"
+    def get_success_url(self):
+        return reverse_lazy('users:user_detail', kwargs={'pk': self.object.pk})
 
 

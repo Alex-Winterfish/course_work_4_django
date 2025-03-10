@@ -1,8 +1,9 @@
 import datetime
 from smtplib import SMTPException
 from django.core.mail import send_mail
+from django.db.models import Sum
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import ClientModel, MessageModel, MailingModel, MailingAttemptModel
 from .forms import StyleFormMixin, MailingForm
 import os
@@ -179,6 +180,24 @@ class MailingAttemptCreate(StyleFormMixin, CreateView):
         return super().form_valid(form)
 
     success_url = reverse_lazy("web_mailing:mailing_attempt")
+
+
+class MainPageView(TemplateView):
+    template_name = "web_mailing/main.html"
+
+    mailing_count = MailingModel.objects.count()
+    mailing_active = MailingModel.objects.filter(status="начата").count()
+    clients = ClientModel.objects.annotate(uniq_clients=Sum("email", distinct=True))
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context["mailing_count"] = self.mailing_count
+        context["mailing_active"] = self.mailing_active
+        context["clients"] = self.clients
+
+        return context
+
 
 
 

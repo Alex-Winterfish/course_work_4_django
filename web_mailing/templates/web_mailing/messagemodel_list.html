@@ -19,8 +19,10 @@
                 </div>
                 <div class="card-footer">
                      <div class="btn-group" role="group">
+                         {% if perms.web_mailing.can_view_message or message.owner == user %}
     <a href="{% url 'web_mailing:message_detail' message.pk %}" class="btn btn-primary mt-3 mb-3">Подробнее</a>
-                         {% if massage.owner == user %}
+                         {% endif %}
+                         {% if not perms.web_mailing.can_view_message %}
     <a href="{% url 'web_mailing:message_update' message.pk %}" class="btn btn-primary mt-3 mb-3">Редактировать</a>
     <a href="{% url 'web_mailing:message_delete' message.pk %}" class="btn btn-primary mt-3 mb-3">Удалить</a>
                          {% endif %}

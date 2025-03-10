@@ -16,6 +16,9 @@ class ClientModel(models.Model):
         verbose_name = "Получатель"
         verbose_name_plural = "Получатели"
         ordering = ["full_name"]
+        permissions = [
+            ("can_view_client", "can view client"),
+        ]
 
 
 class MessageModel(models.Model):
@@ -31,6 +34,9 @@ class MessageModel(models.Model):
         verbose_name = "Сообщение"
         verbose_name_plural = "Сообщения"
         ordering = ["title"]
+        permissions = [
+            ("can_view_message", "can view message"),
+        ]
 
 
 class MailingModel(models.Model):
@@ -59,6 +65,10 @@ class MailingModel(models.Model):
         verbose_name = "Рассылка"
         verbose_name_plural = "Рассылки"
         ordering = ["start", "end"]
+        permissions = [
+            ("can_view_mailing", "can view mailing"),
+            ("can_disable_mailing", "can disable mailing")
+        ]
 
 
 class MailingAttemptModel(models.Model):

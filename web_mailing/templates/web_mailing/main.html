@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} Сообщения {% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+<p>Всего рассылок: {{ mailing_count }}</p>
+<p>Активный рассылок: {{ mailing_active }}</p>
+<p>Уникальных клиентов: {{ clients }}</p>
+
+
+{% endblock %}

@@ -12,8 +12,10 @@
         {{ object.full_name }}
             </div>
             <div class="col-6">
+                {% if not perms.web_mailing.can_view_client %}
                 <a href="{% url 'web_mailing:client_update' object.pk %}" class="btn btn-primary">Редактировать</a>
     <a href="{% url 'web_mailing:client_delete' object.pk %}" class="btn btn-primary">Удалить</a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -26,7 +28,9 @@
         {{ object.email }}
             </div>
             <div class="col-6">
+                {% if not perms.web_mailing.can_view_client %}
             <a href="#" class="btn btn-primary">Начать рассылку</a>
+                {% endif %}
             </div>
         </div>
     </div>

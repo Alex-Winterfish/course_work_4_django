@@ -27,7 +27,9 @@
         </div>
         <div class="col-6">
  <div class="btn-group" role="group">
+     {% if perms.mailing.can_view_mailing %}
     <a href="{% url 'web_mailing:mailing_detail' mailing.pk %}" class="btn btn-primary mt-3 mb-3">Подробнее</a>
+     {% endif %}
      {% if mailing.owner == user %}
     <a href="{% url 'web_mailing:mailing_update' mailing.pk %}" class="btn btn-primary mt-3 mb-3">Редактировать</a>
     <a href="{% url 'web_mailing:mailing_delete' mailing.pk %}" class="btn btn-primary mt-3 mb-3">Удалить</a>

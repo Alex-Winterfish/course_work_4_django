@@ -6,10 +6,15 @@
             <img src="/static/logo/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
 Меню
                <div class="list-group" style="width:15rem">
-                   <a href="#" class="list-group-item list-group-item-action">На главную</a>
+                   <a href="{% url 'web_mailing:main' %}" class="list-group-item list-group-item-action">На главную</a>
+                   {% if not perms.users.can_block_user and user.is_authenticated %}
                    <a href="{% url 'web_mailing:mailing_create' %}" class="list-group-item list-group-item-action">Добавить рассылку</a>
                 <a href="{% url 'web_mailing:client_create' %}" class="list-group-item list-group-item-action">Добавить получателя</a>
                 <a href="{% url 'web_mailing:message_create' %}" class="list-group-item list-group-item-action">Добавить сообщение</a>
+                    {% endif %}
+                   {% if perms.users.can_block_user %}
+                   <a href="{% url 'users:users_list' %}" class="list-group-item list-group-item-action">Список пользователей</a>
+                   {% endif %}
             </div>
 
         </a>
