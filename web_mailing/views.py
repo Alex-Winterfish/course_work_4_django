@@ -1,7 +1,5 @@
 import datetime
-from smtplib import SMTPException
 from django.core.mail import send_mail
-from django.db.models import Sum
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import ClientModel, MessageModel, MailingModel, MailingAttemptModel
@@ -102,6 +100,20 @@ class MailingView(ListView):
             return MailingModel.objects.all()
         return super().get_queryset()
 
+class MailingUpdate(StyleFormMixin, UpdateView):
+    model = MailingModel
+    form_class = MailingForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse_lazy('web_mailing:mailing_detail', kwargs={'pk': self.object.pk})
+
 class MailingCreate(StyleFormMixin, CreateView):
     model = MailingModel
     form_class = MailingForm
@@ -117,12 +129,6 @@ class MailingCreate(StyleFormMixin, CreateView):
     success_url = reverse_lazy('web_mailing:mailing_list')
 
 
-class MailingUpdate(StyleFormMixin, UpdateView):
-    model = MailingModel
-    fields = ["status", "message", "recipients"]
-    success_url = reverse_lazy('web_mailing:mailing_list')
-
-
 class MailingDetail(StyleFormMixin, DetailView):
     model = MailingModel
 
@@ -134,6 +140,13 @@ class MailingDelete(DeleteView):
 
 class MailingAttemptView(ListView):
     model = MailingAttemptModel
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return MailingAttemptModel.objects.filter(owner=user)
+
+
+
 
 
 class MailingAttemptCreate(StyleFormMixin, CreateView):
@@ -152,25 +165,25 @@ class MailingAttemptCreate(StyleFormMixin, CreateView):
         subject = form.instance.mailing.message.title
         message = form.instance.mailing.message.text
         recipients = form.instance.mailing.recipients
-        mailing = MailingModel.objects.get(id=form.instance.mailing.id) #получаем объект рассылки для изменеия статуса
+        mailing = MailingModel.objects.get(id=form.instance.mailing.id)
         mailing.status = "Начата"
         mailing.save()
         mailing.start = datetime.datetime.now()
 
         for recipient in recipients.all():
+            mailing_attempt = MailingAttemptModel(mailing=form.instance.mailing)
+            mailing_attempt.attempt_start = datetime.datetime.now()
             try:
-                mailing_attempt = MailingAttemptModel(mailing=form.instance.mailing)
                 self.send_email(recipient.email, subject, message,)
-                mailing_attempt.attempt_start = datetime.datetime.now()
                 mailing_attempt.status = "Успешно"
+                mailing_attempt.owner = self.request.user
                 mailing_attempt.save()
 
-            except SMTPException as e:
-                mailing_attempt = MailingAttemptModel(mailing=form.instance.mailing)
-                self.send_email(recipient.email, subject, message, )
-                mailing_attempt.attempt_start = datetime.datetime.now()
+            except Exception as e:
+
                 mailing_attempt.status = "Не успешно"
                 mailing_attempt.server_feedback = e
+                mailing_attempt.owner = self.request.user
                 mailing_attempt.save()
 
         mailing.status = "Окончена"
@@ -186,15 +199,21 @@ class MainPageView(TemplateView):
     template_name = "web_mailing/main.html"
 
     mailing_count = MailingModel.objects.count()
-    mailing_active = MailingModel.objects.filter(status="начата").count()
-    clients = ClientModel.objects.annotate(uniq_clients=Sum("email", distinct=True))
+    mailing_active = MailingModel.objects.filter(status="Начата").count()
+    clients = ClientModel.objects.all()
+
+    emails = set()
+    for client in clients:
+        emails.add(client.email)
+
+
 
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
         context["mailing_count"] = self.mailing_count
         context["mailing_active"] = self.mailing_active
-        context["clients"] = self.clients
+        context["clients"] = len(self.emails)
 
         return context
 

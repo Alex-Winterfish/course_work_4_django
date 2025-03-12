@@ -4,10 +4,15 @@
 
 {% block content %}
 {% include 'menu.html' %}
+<div class="col-4"></div>
+<div class="col-4">
+<div class="container mt-3" style="...">
 
-<p>Всего рассылок: {{ mailing_count }}</p>
-<p>Активный рассылок: {{ mailing_active }}</p>
-<p>Уникальных клиентов: {{ clients }}</p>
+<p><h2>Всего рассылок: {{ mailing_count }}</h2></p>
+<p><h2>Активный рассылок: {{ mailing_active }}</h2></p>
+<p><h2>Уникальных клиентов: {{ clients }}</h2></p>
+</div>
 
+</div>
 
 {% endblock %}

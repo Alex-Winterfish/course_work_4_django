@@ -9,7 +9,7 @@ class CustomUserCreationForm(StyleFormMixin, UserCreationForm):
     username = forms.CharField(max_length=50, required=True)
     class Meta(CustomUser.Meta):
         model = CustomUser
-        fields = ("email", "username", "first_name", "last_name", "avatar", "phone_number", "password1", "password2")
+        fields = ("email", "username", "first_name", "last_name", "avatar", "phone_number", "password1", "password2",)
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get("phone_number")

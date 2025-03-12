@@ -59,7 +59,7 @@ class MailingModel(models.Model):
     owner = models.ForeignKey(CustomUser, null=True, blank=True, on_delete=models.CASCADE, verbose_name="создатель рассылки")
 
     def __str__(self):
-        return f"{self.message} статус: {self.status}"
+        return f"{self.message}. Статус: {self.status}"
 
     class Meta:
         verbose_name = "Рассылка"
@@ -84,8 +84,10 @@ class MailingAttemptModel(models.Model):
 
     attempt_start = models.DateTimeField(auto_now=True, verbose_name="дата и время попытки")
     status = models.CharField(choices=STATUS_IN_CHOICES, verbose_name="статус попытки")
-    server_feedback = models.CharField(max_length=100, verbose_name="ответ почтового сервера")
+    server_feedback = models.CharField(max_length=500, verbose_name="ответ почтового сервера")
     mailing = models.ForeignKey(MailingModel, on_delete=models.CASCADE, verbose_name="рассылка")
+    owner = models.ForeignKey(CustomUser, null=True, blank=True, on_delete=models.CASCADE,
+                              verbose_name="Попытка рассылки пользователя")
 
     def __str__(self):
         return f"{self.mailing} статус: {self.status}"

@@ -21,6 +21,6 @@ class MailingAdmin(admin.ModelAdmin):
 
 @admin.register(MailingAttemptModel)
 class Attempt(admin.ModelAdmin):
-    list_display = ("attempt_start", "status")
+    list_display = ("attempt_start", "status", "owner")
     list_filter = ["status"]
     search_fields = ["status"]
