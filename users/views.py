@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView, ListView, TemplateView
 from web_mailing.forms import StyleFormMixin
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomPasswordResetForm, CustomPasswordSetForm
 from django.core.mail import send_mail
+from config import settings
 import os
 from dotenv import load_dotenv
 
@@ -78,5 +80,32 @@ def user_confirm(request, pk):
 
     return redirect('web_mailing:main')
 
+class CustomUserRest(SuccessMessageMixin, PasswordResetView):
+    '''Представление для восстановления пароля'''
+    template_name = "user_reset.html"
+    form_class = CustomPasswordResetForm
+    success_url = reverse_lazy("users:password_reset_done")
+    success_message = "Инструкция по восстановлению пароля отправлена на ваш email"
+    #subject_template_name = "email_reset.html"
+    email_template_name = 'user_reset_mail.html'
+    from_email = settings.EMAIL_HOST_USER
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Запрос на восстановление пароля"
+        return context
+
+
+
+class CustomUserRestConfirm(StyleFormMixin, PasswordResetConfirmView):
+
+    form_class = CustomPasswordSetForm
+    template_name = "set_new_password.html"
+    success_url = reverse_lazy('users:login')
+    success_message = "Пароль успешно изменен. Можете авторизоваться."
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Установить новый пароль"
+        return context
 

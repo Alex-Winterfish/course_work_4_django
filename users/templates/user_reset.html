@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Вход на сайт{% endblock %}
+{% block title %} Восстановление пароля {% endblock %}
 
 {% block content %}
 {% include 'menu.html' %}
@@ -19,8 +19,7 @@
                         <div class="mb-3">
                         {{ form.as_p }}
 
-                            <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Войти</button>
-                            <p><a href="{% url 'users:user_reset' %}">Забыли пароль?</a></p>
+                            <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Восстановить</button>
                         </div>
 
                     </form>
@@ -29,4 +28,5 @@
 
 </div>
   </div></div></div></div>
+
 {% endblock %}
