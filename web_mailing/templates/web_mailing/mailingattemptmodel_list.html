@@ -6,30 +6,47 @@
 {% include 'menu.html' %}
 
 <div class="row"><div class="col-4">
-<a href="{% url 'web_mailing:attempt_create' %}">
-<div class="text-center"><button type="button" class="btn btn-primary mt-3">Начать рассылку рассылку</button></a></div>
+
+<div class="text-center"><a href="{% url 'web_mailing:attempt_create' %}">
+    <button type="button" class="btn btn-primary mt-3">Начать рассылку рассылку</button></a>
+
+    <div class="container mt-3" style="width:20rem">
+        <div class="card">
+            <div class="card-header">
+        <p>Статистка рассылок</p>
+        <p>для пользователя {{ user.username }}</p>
+            </div>
+
+               <ul class="list-group list-group-flush">
+        <li class="list-group-item">Успешные рассылки: {{ success_attempt }}</li>
+        <li class="list-group-item">Неуспешные рассылки: {{ fail_attempt }}</li>
+        <li class="list-group-item">Сообщений разослано: {{ messages }}</li>
+            </ul></div>
+    </div>
+
+
+</div>
+
 </div>
 <div class="col-8">
 <div class="container  mt-3" style="width:40rem">
     {% for attempt in object_list %}
 
-
-
     <div class="card mt-3">
-        <div class="row">
-        <div class="col-8">
-<div class="card-body">
 
-    <p>Рассылка: {{ attempt.mailing }}</p>
-    <p>Статус рассылки: {{ attempt.status }}</p>
-    <p>Ответ сервера: {{ attempt.server_feedback | truncatechars:100 }}</p>
+<div class="card-header">
+
+    <p>Рассылка: {{ attempt.mailing }}</p></div>
+         <ul class="list-group list-group-flush">
+    <li class="list-group-item">Статус рассылки: {{ attempt.status }}</li>
+    <li class="list-group-item">Ответ сервера: {{ attempt.server_feedback | truncatechars:100 }}</li>
 
 
 </div>
-
+ {% endfor %}
         </div>
         </div></div>
-    {% endfor %}
+
 </div>
 
 </div>

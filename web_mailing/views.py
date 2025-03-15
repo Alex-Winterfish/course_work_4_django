@@ -142,8 +142,29 @@ class MailingAttemptView(ListView):
     model = MailingAttemptModel
     def get_queryset(self):
         user = self.request.user
-        if user.is_authenticated:
+        if user.is_authenticated: #получаем попытки рассылок для зарегистрированного пользователя
             return MailingAttemptModel.objects.filter(owner=user)
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        mailing_done = MailingModel.objects.filter(owner=user, status='Окончена') #получаем оконченые рассылки
+        messages = 0 #переменная для накопления числа сообщений
+        for mailing in mailing_done: #цикл для подсчета сообщений, отправленных клиентам
+            messages += mailing.recipients.count()
+        success_attempt = 0
+        fail_attempt = 0
+        attempts = self.get_queryset()
+        for attempt in attempts:
+            if attempt.status == 'Успешно':
+                success_attempt += 1
+            else:
+                fail_attempt += 1
+        context = super().get_context_data(**kwargs)
+        context['success_attempt'] = success_attempt
+        context['fail_attempt'] = fail_attempt
+        context['messages'] = messages
+
+        return context
 
 
 
