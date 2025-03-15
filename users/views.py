@@ -3,6 +3,8 @@ from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView, ListView, TemplateView
@@ -45,12 +47,14 @@ class CustomLoginView(StyleFormMixin, LoginView):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 class CustomUserView(ListView):
     model = CustomUser
     template_name = 'customuser_list.html'
 
 
 def user_block(request, pk):
+    '''Функция для блокировки пользователя'''
     user = get_object_or_404(CustomUser, id=pk)
     user.is_active = not user.is_active
     user.save()

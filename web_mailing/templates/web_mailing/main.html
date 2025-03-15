@@ -7,10 +7,14 @@
 <div class="col-4"></div>
 <div class="col-4">
 <div class="container mt-3" style="...">
-
-<p><h2>Всего рассылок: {{ mailing_count }}</h2></p>
-<p><h2>Активный рассылок: {{ mailing_active }}</h2></p>
-<p><h2>Уникальных клиентов: {{ clients }}</h2></p>
+<div class="card">
+    <div class="card-header"><h2>Общая статистика по рассылкам</h2></div>
+    <ul class="list-group list-group-flush">
+<li class="list-group-item"><h3>Всего рассылок: {{ mailing_count }}</h3></li>
+<li class="list-group-item"><h3>Активных рассылок: {{ mailing_active }}</h3></li>
+<li class="list-group-item"><h3>Уникальных получателей: {{ clients }}</h3></li>
+    </ul>
+</div>
 </div>
 
 </div>

@@ -1,15 +1,19 @@
-import datetime
-from django.core.mail import send_mail
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import ClientModel, MessageModel, MailingModel, MailingAttemptModel
-from .forms import StyleFormMixin, MailingForm
+from .forms import StyleFormMixin, MailingForm, MailingAttemptForm
 import os
 from dotenv import load_dotenv
+from .services import start_mailing
 
 load_dotenv()
 
-class ClientView(ListView):
+@method_decorator(cache_page(60 *15), name='dispatch')
+class ClientView(LoginRequiredMixin, ListView):
     model = ClientModel
 
     def get_queryset(self):
@@ -19,6 +23,8 @@ class ClientView(ListView):
         elif user.groups.filter(name='managers').exists():
             return ClientModel.objects.all()
         return super().get_queryset()
+
+    login_url = reverse_lazy('web_mailing:main')
 
 
 class ClientDetail(DetailView):
@@ -47,8 +53,8 @@ class ClientDelite(DeleteView):
     model = ClientModel
     success_url = reverse_lazy('web_mailing:clients_list')
 
-
-class MessageView(ListView):
+@method_decorator(cache_page(60 *15), name='dispatch')
+class MessageView(LoginRequiredMixin, ListView):
     model = MessageModel
     def get_queryset(self):
         user = self.request.user
@@ -57,6 +63,8 @@ class MessageView(ListView):
         elif user.groups.filter(name='managers').exists():
             return MessageModel.objects.all()
         return super().get_queryset()
+
+    login_url = reverse_lazy('web_mailing:main')
 
 
 class MessageDetail(DetailView):
@@ -90,7 +98,8 @@ class MessageDelete(DeleteView):
     model = MessageModel
     success_url = reverse_lazy("web_mailing:messages_list")
 
-class MailingView(ListView):
+@method_decorator(cache_page(60 *15), name='dispatch')
+class MailingView(LoginRequiredMixin, ListView):
     model = MailingModel
     def get_queryset(self):
         user = self.request.user
@@ -99,6 +108,8 @@ class MailingView(ListView):
         elif user.groups.filter(name='managers').exists():
             return MailingModel.objects.all()
         return super().get_queryset()
+
+    login_url = reverse_lazy('web_mailing:main')
 
 class MailingUpdate(StyleFormMixin, UpdateView):
     model = MailingModel
@@ -129,7 +140,7 @@ class MailingCreate(StyleFormMixin, CreateView):
     success_url = reverse_lazy('web_mailing:mailing_list')
 
 
-class MailingDetail(StyleFormMixin, DetailView):
+class MailingDetail(DetailView):
     model = MailingModel
 
 
@@ -138,7 +149,7 @@ class MailingDelete(DeleteView):
     success_url = reverse_lazy('web_mailing:mailing_list')
 
 
-class MailingAttemptView(ListView):
+class MailingAttemptView(LoginRequiredMixin, ListView):
     model = MailingAttemptModel
     def get_queryset(self):
         user = self.request.user
@@ -166,56 +177,30 @@ class MailingAttemptView(ListView):
 
         return context
 
+    login_url = reverse_lazy('web_mailing:main')
+
 
 
 
 
 class MailingAttemptCreate(StyleFormMixin, CreateView):
     model = MailingAttemptModel
-    fields = ["mailing"]
+    form_class = MailingAttemptForm
 
-    def send_email(self, user_email, subject, message):
-        from_email = os.getenv("EMAIL_HOST_USER")
-        recipient_list = [user_email]
-        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-
-
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Передаем текущего пользователя
+        return kwargs
 
     def form_valid(self, form):
 
-        subject = form.instance.mailing.message.title
-        message = form.instance.mailing.message.text
-        recipients = form.instance.mailing.recipients
-        mailing = MailingModel.objects.get(id=form.instance.mailing.id)
-        mailing.status = "Начата"
-        mailing.save()
-        mailing.start = datetime.datetime.now()
-
-        for recipient in recipients.all():
-            mailing_attempt = MailingAttemptModel(mailing=form.instance.mailing)
-            mailing_attempt.attempt_start = datetime.datetime.now()
-            try:
-                self.send_email(recipient.email, subject, message,)
-                mailing_attempt.status = "Успешно"
-                mailing_attempt.owner = self.request.user
-                mailing_attempt.save()
-
-            except Exception as e:
-
-                mailing_attempt.status = "Не успешно"
-                mailing_attempt.server_feedback = e
-                mailing_attempt.owner = self.request.user
-                mailing_attempt.save()
-
-        mailing.status = "Окончена"
-        mailing.end = datetime.datetime.now()
-        mailing.save()
+        start_mailing(self, form)
 
         return super().form_valid(form)
 
     success_url = reverse_lazy("web_mailing:mailing_attempt")
 
-
+@method_decorator(cache_page(60 *15), name='dispatch')
 class MainPageView(TemplateView):
     template_name = "web_mailing/main.html"
 
@@ -239,5 +224,16 @@ class MainPageView(TemplateView):
         return context
 
 
+def end_mailing(request, pk):
+    '''Функция для отключения рассылки'''
+    mailing = MailingModel.objects.get(id=pk)
+    if mailing.status in ['Окончена']:
+        mailing.status = 'Начата'
+        mailing.save()
+    else:
+        mailing.status = 'Окончена'
+        mailing.save()
+
+    return redirect(f'/web_mailing/mailing_detail/{pk}')
 
 

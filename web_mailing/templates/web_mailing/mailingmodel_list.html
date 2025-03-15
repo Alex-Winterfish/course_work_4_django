@@ -19,15 +19,12 @@
 
             <p>{{ mailing.status }}  {{ mailing.message }}</p>
     <p>Начата {{ mailing.start }} Окончена {{ mailing.end }}</p>
-    {% for client in mailing.recipients.all %}
-    <p>{{ client.full_name }}</p>
-    {% endfor %}
 </div>
 
         </div>
         <div class="col-6">
  <div class="btn-group" role="group">
-     {% if perms.mailing.can_view_mailing or mailing.owner == user %}
+     {% if perms.web_mailing.can_view_mailing or mailing.owner == user %}
     <a href="{% url 'web_mailing:mailing_detail' mailing.pk %}" class="btn btn-primary mt-3 mb-3">Подробнее</a>
      {% endif %}
      {% if mailing.owner == user %}

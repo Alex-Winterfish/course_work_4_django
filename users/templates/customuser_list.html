@@ -33,7 +33,7 @@
         {% if not custom_user.is_active %}
             <a href="{% url 'users:user_block' custom_user.pk %}" class="btn btn-primary mb-3">Разблокировать</a>
         {% endif %}
-        <a href="{% url 'users:user_update' custom_user.pk %}" class="btn btn-primary mb-3">Профиль</a>
+        <a href="{% url 'users:user_detail' custom_user.pk %}" class="btn btn-primary mb-3">Профиль</a>
         <a href="{% url 'users:user_update' custom_user.pk %}" class="btn btn-primary mb-3">Редактировать пользователя</a>
     </div>
 </div>

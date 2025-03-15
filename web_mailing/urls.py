@@ -3,7 +3,7 @@ from web_mailing.apps import WebMailingConfig
 from .views import (ClientView, ClientCreate, ClientDetail, ClientUpdate, ClientDelite,
                     MessageView, MessageDetail, MessageCreate, MessageUpdate, MessageDelete, MailingView,
                     MailingCreate, MailingUpdate, MailingDetail, MailingDelete,
-                    MailingAttemptView, MailingAttemptCreate, MainPageView)
+                    MailingAttemptView, MailingAttemptCreate, MainPageView, end_mailing)
 
 app_name = WebMailingConfig.name
 
@@ -25,5 +25,6 @@ urlpatterns = [
     path("mailing_delete/<int:pk>", MailingDelete.as_view(), name="mailing_delete"),
     path("mailing_attempt", MailingAttemptView.as_view(), name="mailing_attempt"),
     path("attempt_create", MailingAttemptCreate.as_view(), name="attempt_create"),
-    path("main/", MainPageView.as_view(), name="main")
+    path("main/", MainPageView.as_view(), name="main"),
+    path('end_mailing/<int:pk>/', end_mailing, name="end_mailing"),
 ]
