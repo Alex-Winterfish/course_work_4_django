@@ -18,6 +18,12 @@
         <p>Электронная почта {{ object.email }}</p>
         <p>Телефон {{ object.phone }}</p></p>
         <a href="{% url 'users:user_update' object.pk %}" class="btn btn-primary mb-3">Редактировать пользователя</a>
+        {% if object.is_active %}
+            <a href="{% url 'users:user_block' object.pk %}" class="btn btn-danger mb-3">Заблокировать</a>
+        {% endif %}
+        {% if not object.is_active %}
+            <a href="{% url 'users:user_block' object.pk %}" class="btn btn-primary mb-3">Разблокировать</a>
+        {% endif %}
     </div>
 </div>
 </div>

@@ -1,5 +1,10 @@
 from django.forms import BooleanField, ModelForm
-from web_mailing.models import MailingModel, MessageModel, ClientModel, MailingAttemptModel
+from web_mailing.models import (
+    MailingModel,
+    MessageModel,
+    ClientModel,
+    MailingAttemptModel,
+)
 
 
 class StyleFormMixin:
@@ -19,17 +24,22 @@ class MailingForm(ModelForm):
         fields = ["message", "recipients"]
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user')
+        user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
-        self.fields['message'].queryset = MessageModel.objects.filter(owner=user)
-        self.fields['recipients'].queryset = ClientModel.objects.filter(owner=user)
+        self.fields["message"].queryset = MessageModel.objects.filter(owner=user)
+        self.fields["recipients"].queryset = ClientModel.objects.filter(owner=user)
+
 
 class MailingAttemptForm(ModelForm):
     class Meta:
         model = MailingAttemptModel
-        fields = ["mailing",]
+        fields = [
+            "mailing",
+        ]
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user')
+        user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
-        self.fields['mailing'].queryset = MailingModel.objects.filter(owner=user).exclude(status="Окончена")
+        self.fields["mailing"].queryset = MailingModel.objects.filter(
+            owner=user
+        ).exclude(status="Окончена")

@@ -1,15 +1,34 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
 from users.models import CustomUser
 from web_mailing.forms import StyleFormMixin
 
+
 class CustomUserCreationForm(StyleFormMixin, UserCreationForm):
-    phone_number = forms.CharField(max_length=15, required=False, help_text="Необязательное поле. Введите ваш номер телефона")
+    phone_number = forms.CharField(
+        max_length=15,
+        required=False,
+        help_text="Необязательное поле. Введите ваш номер телефона",
+    )
     username = forms.CharField(max_length=50, required=True)
+
     class Meta(CustomUser.Meta):
         model = CustomUser
-        fields = ("email", "username", "first_name", "last_name", "avatar", "phone_number", "password1", "password2",)
+        fields = (
+            "email",
+            "username",
+            "first_name",
+            "last_name",
+            "avatar",
+            "phone_number",
+            "password1",
+            "password2",
+        )
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get("phone_number")
@@ -17,21 +36,20 @@ class CustomUserCreationForm(StyleFormMixin, UserCreationForm):
             raise forms.ValidationError("Номер должен состоять только из цифр")
         return phone_number
 
+
 class CustomPasswordResetForm(PasswordResetForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
+            self.fields[field].widget.attrs.update(
+                {"class": "form-control", "autocomplete": "off"}
+            )
+
 
 class CustomPasswordSetForm(SetPasswordForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
-
+            self.fields[field].widget.attrs.update(
+                {"class": "form-control", "autocomplete": "off"}
+            )

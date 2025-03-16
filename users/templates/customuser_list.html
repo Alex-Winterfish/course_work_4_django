@@ -26,13 +26,6 @@
         <p class="card-text"><p>Страна {{ custom_user.country }}</p>
         <p>Электронная почта {{ custom_user.email }}</p>
         <p>Телефон {{ custom_user.phone }}</p></p>
-
-        {% if custom_user.is_active %}
-            <a href="{% url 'users:user_block' custom_user.pk %}" class="btn btn-danger mb-3">Заблокировать</a>
-        {% endif %}
-        {% if not custom_user.is_active %}
-            <a href="{% url 'users:user_block' custom_user.pk %}" class="btn btn-primary mb-3">Разблокировать</a>
-        {% endif %}
         <a href="{% url 'users:user_detail' custom_user.pk %}" class="btn btn-primary mb-3">Профиль</a>
         <a href="{% url 'users:user_update' custom_user.pk %}" class="btn btn-primary mb-3">Редактировать пользователя</a>
     </div>

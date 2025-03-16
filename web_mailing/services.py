@@ -3,12 +3,13 @@ from dotenv import load_dotenv
 import os
 from web_mailing.models import MailingModel, MailingAttemptModel
 import datetime
+
 load_dotenv()
 
 
 def start_mailing(self, form):
 
-    from_email = os.getenv('EMAIL_HOST_USER')
+    from_email = os.getenv("EMAIL_HOST_USER")
     subject = form.instance.mailing.message.title
     message = form.instance.mailing.message.text
     recipients = form.instance.mailing.recipients
@@ -21,7 +22,9 @@ def start_mailing(self, form):
         mailing_attempt = MailingAttemptModel(mailing=form.instance.mailing)
         mailing_attempt.attempt_start = datetime.datetime.now()
         try:
-            send_mail(subject, message, from_email, [recipient.email], fail_silently=False)
+            send_mail(
+                subject, message, from_email, [recipient.email], fail_silently=False
+            )
             mailing_attempt.status = "Успешно"
             mailing_attempt.owner = self.request.user
             mailing_attempt.save()
@@ -35,6 +38,3 @@ def start_mailing(self, form):
 
     mailing.end = datetime.datetime.now()
     mailing.save()
-
-
-

@@ -1,0 +1,86 @@
+[
+{
+    "model": "users.customuser",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$P2CP8XGLgZ9Oh73IjKXe44$P3jbuGeyaH21ri0eBMX7RYotxgyW+jnRWeWzk2QISpY=",
+        "last_login": "2025-03-15T17:52:19.279Z",
+        "is_superuser": false,
+        "username": "Ivan",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": false,
+        "date_joined": "2025-03-06T18:21:39.439Z",
+        "email": "Ivan@gmail.com",
+        "avatar": "",
+        "phone": "89152292235",
+        "country": "Россия",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.customuser",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$aVoI8b3xhwHeBnZXkQFust$3HSKPjvzGxKrjD1x7yx9A7IcxVfaPy+lFwpbTSZjVg8=",
+        "last_login": "2025-03-09T18:52:05.523Z",
+        "is_superuser": false,
+        "username": "Petr",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-03-06T18:22:55.751Z",
+        "email": "Petr@gmail.com",
+        "avatar": "",
+        "phone": null,
+        "country": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.customuser",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$8fXbVTL9zISggRrEImQCJ5$+q2TVuwY6YUpS7lTdrln0Zb34O0Wzaa/X2tmqKe8Sdg=",
+        "last_login": "2025-03-08T06:48:44.305Z",
+        "is_superuser": false,
+        "username": "Gosha",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-03-06T18:24:38.580Z",
+        "email": "Gosha@gmail.com",
+        "avatar": "",
+        "phone": "89152292235",
+        "country": "Россия",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.customuser",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$3NMv0CX7huaD67IOmi1sfb$ZU3KXJKz+jQDdJ/mLgq6ySIyJhi7/ibcbpIq5mr2zoE=",
+        "last_login": "2025-03-16T06:32:56.590Z",
+        "is_superuser": false,
+        "username": "Manager",
+        "first_name": "Aleksey",
+        "last_name": "Bulgakov",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-03-08T09:11:14Z",
+        "email": "manager_1@gmail.com",
+        "avatar": "",
+        "phone": "89152292235",
+        "country": "Россия",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]
