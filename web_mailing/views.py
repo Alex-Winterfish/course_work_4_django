@@ -19,7 +19,7 @@ from .services import start_mailing
 load_dotenv()
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(cache_page(60 * 1), name="dispatch")
 class ClientView(LoginRequiredMixin, ListView):
     model = ClientModel
 
@@ -62,7 +62,7 @@ class ClientDelite(DeleteView):
     success_url = reverse_lazy("web_mailing:clients_list")
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(cache_page(60 * 1), name="dispatch")
 class MessageView(LoginRequiredMixin, ListView):
     model = MessageModel
 
@@ -106,7 +106,7 @@ class MessageDelete(DeleteView):
     success_url = reverse_lazy("web_mailing:messages_list")
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(cache_page(60 * 1), name="dispatch")
 class MailingView(LoginRequiredMixin, ListView):
     model = MailingModel
 
@@ -219,7 +219,7 @@ class MailingAttemptCreate(StyleFormMixin, CreateView):
     success_url = reverse_lazy("web_mailing:mailing_attempt")
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(cache_page(60 * 1), name="dispatch")
 class MainPageView(TemplateView):
     template_name = "web_mailing/main.html"
 

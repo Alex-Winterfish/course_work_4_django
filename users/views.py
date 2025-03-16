@@ -104,7 +104,7 @@ def user_confirm(request, pk):
     user.save()
     login(request, user)
 
-    return redirect("web_mailing:main")
+    return redirect("users:login")
 
 
 class CustomUserRest(SuccessMessageMixin, PasswordResetView):
