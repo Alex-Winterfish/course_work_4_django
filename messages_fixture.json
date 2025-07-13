@@ -1,0 +1,65 @@
+[
+{
+    "model": "web_mailing.messagemodel",
+    "pk": 5,
+    "fields": {
+        "title": "Письмо от Ivan #1",
+        "text": "Текст от Ivan",
+        "owner": 3
+    }
+},
+{
+    "model": "web_mailing.messagemodel",
+    "pk": 6,
+    "fields": {
+        "title": "Письмо от Ivan #2",
+        "text": "Тема от Ивана",
+        "owner": 3
+    }
+},
+{
+    "model": "web_mailing.messagemodel",
+    "pk": 7,
+    "fields": {
+        "title": "Письмо от Петра №1",
+        "text": "Сообщение от Петра",
+        "owner": 4
+    }
+},
+{
+    "model": "web_mailing.messagemodel",
+    "pk": 8,
+    "fields": {
+        "title": "Письмо от Петра №2",
+        "text": "Сообщение от Петра",
+        "owner": 4
+    }
+},
+{
+    "model": "web_mailing.messagemodel",
+    "pk": 9,
+    "fields": {
+        "title": "Новое письмо от Петра",
+        "text": "Новая темка от Петра",
+        "owner": 4
+    }
+},
+    {
+        "model": "web_mailing.messagemodel",
+        "pk": 10,
+        "fields": {
+            "title": "Письмо от Ивана №4",
+            "text": "Тестовая рассылка",
+            "owner": 3
+        }
+    },
+{
+    "model": "web_mailing.messagemodel",
+    "pk": 11,
+    "fields": {
+        "title": "Письмо от Гоши №1",
+        "text": "Рассылка от Гоши",
+        "owner": 5
+    }
+}
+]

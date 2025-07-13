@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %} Рассылка {% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+<div class="container" style="width:50rem">
+<div class="card mt-3">
+    <div class="card-header">
+                Статус рассылки <div class="btn btn-info">{{ object.status }}</div>
+            </div>
+    <div class="card-body">
+        <div class="row">
+        <div class="col-6">
+        <p>Начата:    {{ object.start }}</p>
+        <p>Завершена: {{ object.end }}</p>
+        </div>
+            <div class="col-6"> <p>Получатели:</p>
+            {% for client in object.recipients.all %}
+                <p>{{ client.full_name }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+            <ul class="list-group list-group-flush">
+                {% if not perms.web_mailing.can_disable_mailing %}
+                <li class="list-group-item"><a href="{% url 'web_mailing:message_update' object.pk %}" class="btn btn-primary">Редактировать</a></li>
+                <li class="list-group-item"><a href="{% url 'web_mailing:message_delete' object.pk %}" class="btn btn-primary">Удалить</a></li>
+                {% endif %}
+                {% if perms.web_mailing.can_disable_mailing %}
+                <li class="list-group-item"><a href="{% url 'web_mailing:end_mailing' object.pk %}" class="btn btn-primary mt-3">Отключить рассылку</a></li>
+                {% endif %}
+    </ul>
+    </div>
+            </div>
+        </div>
+
+    <div class="card-body">
+        {{ object.text }}
+    </div>
+
+
+
+{% endblock %}

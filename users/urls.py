@@ -1,0 +1,40 @@
+from django.contrib.auth.views import LogoutView, PasswordResetDoneView
+from django.urls import path
+from users.apps import UsersConfig
+from users.views import (
+    RegisterView,
+    CustomLoginView,
+    CustomUserView,
+    user_block,
+    CustomUserDetail,
+    CustomUserUpdate,
+    CustomUserRegister,
+    user_confirm,
+    CustomUserRest,
+    CustomUserRestConfirm,
+)
+
+app_name = UsersConfig.name
+
+urlpatterns = [
+    path("login/", CustomLoginView.as_view(template_name="login.html"), name="login"),
+    path("logout/", LogoutView.as_view(next_page="web_mailing:main"), name="logout"),
+    path("register/", RegisterView.as_view(), name="register"),
+    path("users_list/", CustomUserView.as_view(), name="users_list"),
+    path("user_block/<int:pk>", user_block, name="user_block"),
+    path("user_detail/<int:pk>", CustomUserDetail.as_view(), name="user_detail"),
+    path("user_update/<int:pk>", CustomUserUpdate.as_view(), name="user_update"),
+    path("user_register/", CustomUserRegister.as_view(), name="user_register"),
+    path("user_confirm/<int:pk>/", user_confirm, name="user_confirm"),
+    path("user_reset/", CustomUserRest.as_view(), name="user_reset"),
+    path(
+        "user_reset_confirm/<uidb64>/<token>/",
+        CustomUserRestConfirm.as_view(),
+        name="user_reset_confirm",
+    ),
+    path(
+        "password_reset_done/",
+        PasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+]
