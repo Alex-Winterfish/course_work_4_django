@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %} Список клиентов {% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+{% for client in object_list %}
+
+<div class="container  mt-3" style="width:50rem">
+
+    <div class="card">
+        <div class="row">
+        <div class="col-6">
+<div class="card-body">
+
+            <p>{{ client.full_name }}  {{ client.email }}</p>
+            <p>Создан пользователем: {{ client.owner }}</p>
+</div>
+
+        </div>
+        <div class="col-6">
+ <div class="btn-group" role="group">
+     {% if perms.web_mailing.can_view_client or client.owner == user %}
+    <a href="{% url 'web_mailing:client_detail' client.pk %}" class="btn btn-primary mt-3 mb-3">Подробнее</a>
+     {% endif %}
+     {% if client.owner == user %}
+    <a href="{% url 'web_mailing:client_update' client.pk %}" class="btn btn-primary mt-3 mb-3">Редактировать</a>
+    <a href="{% url 'web_mailing:client_delete' client.pk %}" class="btn btn-primary mt-3 mb-3">Удалить</a>
+     {% endif %}
+    </div>
+        </div>
+        </div></div>
+</div>
+
+{% endfor %}
+{% endblock %}

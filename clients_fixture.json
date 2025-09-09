@@ -1,0 +1,72 @@
+[
+{
+    "model": "web_mailing.clientmodel",
+    "pk": 10,
+    "fields": {
+        "email": "example_1@mail.com",
+        "full_name": "Иванов Иван Иванович",
+        "note": "Клиент пользователя Ivan",
+        "owner": 3
+    }
+},
+{
+    "model": "web_mailing.clientmodel",
+    "pk": 11,
+    "fields": {
+        "email": "example_2@mail.com",
+        "full_name": "Jone J Smith",
+        "note": "Клиент пользователя Ivan",
+        "owner": 3
+    }
+},
+{
+    "model": "web_mailing.clientmodel",
+    "pk": 12,
+    "fields": {
+        "email": "example_3@mail.com",
+        "full_name": "Петров Петр Петрович",
+        "note": "Клиент пользователя Petr",
+        "owner": 4
+    }
+},
+{
+    "model": "web_mailing.clientmodel",
+    "pk": 13,
+    "fields": {
+        "email": "example_4@mail.com",
+        "full_name": "Гаспарян Арсен Георгиевич",
+        "note": "Клиент пользователя Petr",
+        "owner": 4
+    }
+},
+{
+    "model": "web_mailing.clientmodel",
+    "pk": 14,
+    "fields": {
+        "email": "example_5@mail.com",
+        "full_name": "Ивонян Иван Иванович",
+        "note": "Клиент пользователя Gosha",
+        "owner": 5
+    }
+},
+{
+    "model": "web_mailing.clientmodel",
+    "pk": 15,
+    "fields": {
+        "email": "example_6@mail.com",
+        "full_name": "Иван Иванов",
+        "note": "Клиент пользователя Gosha",
+        "owner": 5
+    }
+},
+{
+    "model": "web_mailing.clientmodel",
+    "pk": 16,
+    "fields": {
+        "email": "Alksbulgakov@gmail.com",
+        "full_name": "Сергей Иванов",
+        "note": "Клиент пользователя Ivan",
+        "owner": 3
+    }
+}
+]

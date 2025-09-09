@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} Список клиентов {% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+<div class="col-10">
+  <div class="container text-center">
+<h4>Список пользователей</h4>
+  <div class="text-start">
+  <div class="row align-items-center">
+<div class="container">
+<div class="row row-cols-3">
+    {% for custom_user in object_list %}
+    {% if not custom_user.is_staff and custom_user != user %}
+     <div class="col">
+<div class="card mb-3">
+    <div class="card-body">
+        {% if custom_user.avatar  %}
+<img src="{{ custom_user.avatar.url }}" class="card-img-top" alt="...">
+        {% else %}
+        <img src="#" class="card-img-top" alt="...">
+        {% endif %}
+        <h5 class="card-title">Ф.И.О. {{ custom_user.full_name }}</h5>
+        <p class="card-text"><p>Страна {{ custom_user.country }}</p>
+        <p>Электронная почта {{ custom_user.email }}</p>
+        <p>Телефон {{ custom_user.phone }}</p></p>
+        <a href="{% url 'users:user_detail' custom_user.pk %}" class="btn btn-primary mb-3">Профиль</a>
+        <a href="{% url 'users:user_update' custom_user.pk %}" class="btn btn-primary mb-3">Редактировать пользователя</a>
+    </div>
+</div>
+     </div>
+    {% endif %}
+        {% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

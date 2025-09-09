@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация пользователя{% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+<div class="col-10">
+  <div class="container text-center">
+<h4>Регистрация</h4>
+  <div class="text-start">
+  <div class="row justify-content-center">
+
+<div class="col-lg-5 col-md-6 col-sm-12" >
+ <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <form method="post" action="" class="form-floating">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                        {{ form.as_p }}
+
+                            <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Регистрация</button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+</div>
+  </div></div></div></div>
+{% endblock %}

@@ -1,0 +1,146 @@
+[
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 6,
+    "fields": {
+        "start": "2025-03-15T12:02:26.073Z",
+        "end": "2025-03-15T12:02:26.085Z",
+        "status": "Начата",
+        "message": 5,
+        "owner": 3,
+        "recipients": [
+            10
+        ]
+    }
+},
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 7,
+    "fields": {
+        "start": "2025-03-15T15:49:45.852Z",
+        "end": "2025-03-15T15:49:47.573Z",
+        "status": "Окончена",
+        "message": 6,
+        "owner": 3,
+        "recipients": [
+            11,
+            10
+        ]
+    }
+},
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 8,
+    "fields": {
+        "start": "2025-03-15T15:23:21.142Z",
+        "end": "2025-03-15T15:23:21.750Z",
+        "status": "Окончена",
+        "message": 7,
+        "owner": 4,
+        "recipients": [
+            13
+        ]
+    }
+},
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 9,
+    "fields": {
+        "start": "2025-03-16T12:26:28.141Z",
+        "end": "2025-03-16T12:26:30.251Z",
+        "status": "Начата",
+        "message": 8,
+        "owner": 4,
+        "recipients": [
+            13,
+            12
+        ]
+    }
+},
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 10,
+    "fields": {
+        "start": "2025-03-15T15:49:38.274Z",
+        "end": "2025-03-15T15:49:38.994Z",
+        "status": "Окончена",
+        "message": 6,
+        "owner": 3,
+        "recipients": [
+            16
+        ]
+    }
+},
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 11,
+    "fields": {
+        "start": "2025-03-15T15:23:07.043Z",
+        "end": "2025-03-15T15:23:07.533Z",
+        "status": "Окончена",
+        "message": 10,
+        "owner": 3,
+        "recipients": [
+            16
+        ]
+    }
+},
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 12,
+    "fields": {
+        "start": "2025-03-15T15:49:19.011Z",
+        "end": "2025-03-15T15:49:19.754Z",
+        "status": "Окончена",
+        "message": 10,
+        "owner": 3,
+        "recipients": [
+            16
+        ]
+    }
+},
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 13,
+    "fields": {
+        "start": "2025-03-15T16:48:21.218Z",
+        "end": "2025-03-15T16:48:22.023Z",
+        "status": "Окончена",
+        "message": 10,
+        "owner": 3,
+        "recipients": [
+            16
+        ]
+    }
+},
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 14,
+    "fields": {
+        "start": null,
+        "end": null,
+        "status": "Окончена",
+        "message": 10,
+        "owner": 3,
+        "recipients": [
+            16,
+            10
+        ]
+    }
+},
+{
+    "model": "web_mailing.mailingmodel",
+    "pk": 15,
+    "fields": {
+        "start": "2025-03-16T12:25:19.628Z",
+        "end": "2025-03-16T12:25:21.156Z",
+        "status": "Окончена",
+        "message": 7,
+        "owner": 4,
+        "recipients": [
+            13,
+            12
+        ]
+    }
+}
+]
